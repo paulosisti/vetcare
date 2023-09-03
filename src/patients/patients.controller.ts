@@ -3,9 +3,11 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
@@ -16,27 +18,54 @@ export class PatientsController {
   constructor(private readonly patientsService: PatientsService) {}
 
   @Post()
-  create(@Body() createPatientDto: CreatePatientDto) {
-    return this.patientsService.create(createPatientDto);
+  async create(@Body() createPatientDto: CreatePatientDto) {
+    try {
+      const patient = await this.patientsService.create(createPatientDto);
+      return patient;
+    } catch (error) {
+      throw new UnprocessableEntityException(error.message);
+    }
   }
 
   @Get()
-  findAll() {
-    return this.patientsService.findAll();
+  async findAll() {
+    const patients = await this.patientsService.findAll();
+    return patients;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.patientsService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    try {
+      const patient = await this.patientsService.findOne(id);
+      return patient;
+    } catch (error) {
+      throw new NotFoundException(`Patient with ID ${id} not found`);
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePatientDto: UpdatePatientDto) {
-    return this.patientsService.update(+id, updatePatientDto);
+  async update(
+    @Param('id') id: number,
+    @Body() updatePatientDto: UpdatePatientDto,
+  ) {
+    try {
+      const updatedPatient = await this.patientsService.update(
+        id,
+        updatePatientDto,
+      );
+      return updatedPatient;
+    } catch (error) {
+      throw new UnprocessableEntityException(error.message);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.patientsService.remove(+id);
+  async remove(@Param('id') id: number) {
+    try {
+      const deletedPatient = await this.patientsService.remove(id);
+      return deletedPatient;
+    } catch (error) {
+      throw new NotFoundException(`Patient with ID ${id} not found`);
+    }
   }
 }

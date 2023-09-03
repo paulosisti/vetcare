@@ -1,0 +1,71 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { CreateOwnerDto } from './dto/create-owner.dto';
+import { UpdateOwnerDto } from './dto/update-owner.dto';
+import { OwnersService } from './owners.service';
+
+@Controller('owners')
+export class OwnersController {
+  constructor(private readonly ownersService: OwnersService) {}
+
+  @Post()
+  async create(@Body() createOwnerDto: CreateOwnerDto) {
+    try {
+      const owner = await this.ownersService.create(createOwnerDto);
+      return owner;
+    } catch (error) {
+      // Lide com erros aqui, por exemplo, validações do Prisma
+      throw new Error('Unable to create owner');
+    }
+  }
+
+  @Get()
+  async findAll() {
+    const owners = await this.ownersService.findAll();
+    return owners;
+  }
+
+  @Get(':id')
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    try {
+      const owner = await this.ownersService.findOne(id);
+      return owner;
+    } catch (error) {
+      throw new NotFoundException(`Owner with ID ${id} not found`);
+    }
+  }
+
+  @Patch(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateOwnerDto: UpdateOwnerDto,
+  ) {
+    try {
+      const updatedOwner = await this.ownersService.update(id, updateOwnerDto);
+      return updatedOwner;
+    } catch (error) {
+      // Lide com erros aqui, por exemplo, validações do Prisma
+      throw new Error(`Unable to update owner with ID ${id}`);
+    }
+  }
+
+  @Delete(':id')
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    try {
+      const deletedOwner = await this.ownersService.remove(id);
+      return deletedOwner;
+    } catch (error) {
+      // Lide com erros aqui, por exemplo, validações do Prisma
+      throw new Error(`Unable to delete owner with ID ${id}`);
+    }
+  }
+}
