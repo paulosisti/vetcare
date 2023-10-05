@@ -1,15 +1,15 @@
 import { Prisma } from '@prisma/client';
 import { DecimalJsLike } from '@prisma/client/runtime/library';
 import {
-  IsDateString,
+  IsDate,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
-  IsUrl,
 } from 'class-validator';
+import { TransformDate } from 'src/decorators/transform-date.decorator';
 
-export class CreatePatientDto implements Prisma.PatientCreateInput {
+export class CreatePatientDto {
   @IsNotEmpty({ message: 'Name is required' })
   @IsString({ message: 'Name must be a string' })
   name: string;
@@ -23,7 +23,8 @@ export class CreatePatientDto implements Prisma.PatientCreateInput {
   breed: string;
 
   @IsOptional()
-  @IsDateString({}, { message: 'Date of birth must be a valid date' })
+  @IsDate()
+  @TransformDate
   dateOfBirth?: string | Date;
 
   @IsNotEmpty({ message: 'Sex is required' })
@@ -51,7 +52,6 @@ export class CreatePatientDto implements Prisma.PatientCreateInput {
   emergencyContact?: string;
 
   @IsOptional()
-  @IsUrl({}, { message: 'Photo URL must be valid' })
   photoUrl?: string;
 
   @IsNotEmpty({ message: 'Current status is required' })
@@ -63,5 +63,6 @@ export class CreatePatientDto implements Prisma.PatientCreateInput {
   additionalNotes?: string;
 
   @IsNotEmpty({ message: 'Owner is required' })
-  owner: Prisma.OwnerCreateNestedOneWithoutPatientsInput;
+  @IsNumber()
+  ownerId: number;
 }

@@ -24,7 +24,7 @@ export class OwnersService {
   }
 
   async findOne(id: number) {
-    const owner = await this.prismaService.owner.findUnique({
+    const owner = await this.prismaService.owner.findFirst({
       where: { id },
       include: {
         patients: true,

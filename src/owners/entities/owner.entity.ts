@@ -15,5 +15,4 @@ export class Owner implements Prisma.OwnerUncheckedCreateInput {
   petInsuranceDetails?: string;
   additionalNotes?: string;
   registrationDate: string | Date;
-  patients?: Prisma.PatientUncheckedCreateNestedManyWithoutOwnerInput;
 }

@@ -6,5 +6,6 @@ import { OwnersService } from './owners.service';
 @Module({
   controllers: [OwnersController],
   providers: [OwnersService, PrismaService],
+  exports: [OwnersService],
 })
 export class OwnersModule {}

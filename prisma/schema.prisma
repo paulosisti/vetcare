@@ -10,36 +10,97 @@ datasource db {
 model Owner {
   id                     Int       @id @default(autoincrement())
   name                   String
-  address                String // Endereço completo
-  phoneNumber            String // Número de telefone principal
-  email                  String // Endereço de e-mail
-  dateOfBirth            DateTime? // Data de nascimento
-  gender                 String // Gênero
-  maritalStatus          String // Estado civil
-  occupation             String // Profissão
-  photoUrl               String? // Foto do proprietário
-  preferredPaymentMethod String? // Forma de pagamento preferencial
-  petInsuranceDetails    String? // Informações de seguro para animais de estimação
-  additionalNotes        String? // Notas adicionais
-  registrationDate       DateTime // Data de cadastro
-  patients               Patient[] // Relacionamento com os pacientes do proprietário
+  address                String
+  phoneNumber            String
+  email                  String
+  dateOfBirth            DateTime?
+  gender                 String
+  maritalStatus          String
+  occupation             String
+  photoUrl               String?
+  preferredPaymentMethod String?
+  petInsuranceDetails    String?
+  additionalNotes        String?
+  registrationDate       DateTime
+  patients               Patient[]
 }
 
 model Patient {
-  id               Int       @id @default(autoincrement())
+  id                   Int                    @id @default(autoincrement())
+  name                 String
+  species              String
+  breed                String
+  dateOfBirth          DateTime?
+  sex                  String
+  color                String
+  weight               Decimal?
+  allergies            String?
+  medications          String?
+  ownerId              Int
+  owner                Owner                  @relation(fields: [ownerId], references: [id])
+  emergencyContact     String?
+  photoUrl             String?
+  currentStatus        String
+  additionalNotes      String?
+  patientMedicalRecord PatientMedicalRecord[]
+  vaccines             Vaccine[]
+  patientVaccine       PatientVaccine[]
+  hygiene              Hygiene[]
+  parasiteControl      ParasiteControl[]
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  email         String   @unique
+  password      String
+  firstName     String
+  lastName      String
+  currentStatus String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model PatientMedicalRecord {
+  id               Int      @id @default(autoincrement())
+  consultationDate DateTime
+  diagnosis        String
+  treatment        String
+  prescription     String?
+  notes            String?
+  patientId        Int
+  patient          Patient  @relation(fields: [patientId], references: [id])
+}
+
+model Vaccine {
+  id               Int              @id @default(autoincrement())
   name             String
-  species          String
-  breed            String
-  dateOfBirth      DateTime?
-  sex              String
-  color            String
-  weight           Decimal?
-  allergies        String?
-  medications      String?
-  ownerId          Int
-  owner            Owner     @relation(fields: [ownerId], references: [id])
-  emergencyContact String?
-  photoUrl         String?
-  currentStatus    String
-  additionalNotes  String?
+  dateAdministered DateTime
+  notes            String?
+  patient          Patient[]
+  patientVaccine   PatientVaccine[]
+}
+
+model PatientVaccine {
+  id        Int     @id @default(autoincrement())
+  patientId Int
+  vaccineId Int
+  patient   Patient @relation(fields: [patientId], references: [id])
+  vaccine   Vaccine @relation(fields: [vaccineId], references: [id])
+}
+
+model Hygiene {
+  id          Int      @id @default(autoincrement())
+  serviceDate DateTime
+  notes       String?
+  patientId   Int
+  patient     Patient  @relation(fields: [patientId], references: [id])
+}
+
+model ParasiteControl {
+  id          Int      @id @default(autoincrement())
+  controlDate DateTime
+  controlType String
+  patientId   Int
+  patient     Patient  @relation(fields: [patientId], references: [id])
 }

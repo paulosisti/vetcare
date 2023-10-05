@@ -3,9 +3,9 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -35,7 +35,7 @@ export class OwnersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id') id: number) {
     try {
       const owner = await this.ownersService.findOne(id);
       return owner;
@@ -46,7 +46,7 @@ export class OwnersController {
 
   @Patch(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: number,
     @Body() updateOwnerDto: UpdateOwnerDto,
   ) {
     try {
@@ -58,8 +58,9 @@ export class OwnersController {
     }
   }
 
+  @HttpCode(204)
   @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Param('id') id: number) {
     try {
       const deletedOwner = await this.ownersService.remove(id);
       return deletedOwner;

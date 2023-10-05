@@ -12,9 +12,9 @@ export class Patient implements Prisma.PatientUncheckedCreateInput {
   weight?: string | number | Prisma.Decimal | DecimalJsLike;
   allergies?: string;
   medications?: string;
-  ownerId: number;
   emergencyContact?: string;
   photoUrl?: string;
   currentStatus: string;
   additionalNotes?: string;
+  ownerId: number;
 }

@@ -1,14 +1,14 @@
-import { Prisma } from '@prisma/client';
 import {
-  IsDateString,
+  IsDate,
   IsEmail,
   IsNotEmpty,
   IsOptional,
   IsString,
   IsUrl,
 } from 'class-validator';
+import { TransformDate } from 'src/decorators/transform-date.decorator';
 
-export class CreateOwnerDto implements Prisma.OwnerCreateInput {
+export class CreateOwnerDto {
   @IsNotEmpty({ message: 'Name is required' })
   @IsString({ message: 'Name must be a string' })
   name: string;
@@ -26,7 +26,8 @@ export class CreateOwnerDto implements Prisma.OwnerCreateInput {
   email: string;
 
   @IsOptional()
-  @IsDateString({}, { message: 'Date of birth must be a valid date' })
+  @IsDate()
+  @TransformDate
   dateOfBirth?: string | Date;
 
   @IsNotEmpty({ message: 'Gender is required' })
@@ -58,9 +59,7 @@ export class CreateOwnerDto implements Prisma.OwnerCreateInput {
   additionalNotes?: string;
 
   @IsNotEmpty({ message: 'Registration date is required' })
-  @IsDateString({}, { message: 'Registration date must be a valid date' })
+  @IsDate()
+  @TransformDate
   registrationDate: string | Date;
-
-  @IsOptional()
-  patients?: Prisma.PatientCreateNestedManyWithoutOwnerInput;
 }
