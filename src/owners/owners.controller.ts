@@ -9,18 +9,23 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { MailService } from 'src/emails/mail.service';
 import { CreateOwnerDto } from './dto/create-owner.dto';
 import { UpdateOwnerDto } from './dto/update-owner.dto';
 import { OwnersService } from './owners.service';
 
 @Controller('owners')
 export class OwnersController {
-  constructor(private readonly ownersService: OwnersService) {}
+  constructor(
+    private readonly ownersService: OwnersService,
+    private readonly mailService: MailService,
+  ) {}
 
   @Post()
   async create(@Body() createOwnerDto: CreateOwnerDto) {
     try {
       const owner = await this.ownersService.create(createOwnerDto);
+      this.mailService.sendMail(owner.email);
       return owner;
     } catch (error) {
       // Lide com erros aqui, por exemplo, validações do Prisma

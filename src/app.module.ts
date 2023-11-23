@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 import { CalendarModule } from './calendar/calendar.module';
 import { MailModule } from './emails/mail.module';
 import { HygienesModule } from './hygienes/hygienes.module';
@@ -26,6 +27,7 @@ import { VaccinesModule } from './vaccines/vaccines.module';
     HygienesModule,
     ParasiteControllsModule,
     MailModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
