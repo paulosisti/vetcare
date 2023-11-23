@@ -5,7 +5,7 @@ import { UpdateOwnerDto } from './dto/update-owner.dto';
 
 @Injectable()
 export class OwnersService {
-  constructor(private readonly prismaService: PrismaService) {} // Injete o serviço do Prisma aqui
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createOwnerDto: CreateOwnerDto) {
     const createdOwner = await this.prismaService.owner.create({

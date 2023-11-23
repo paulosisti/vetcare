@@ -36,6 +36,11 @@ export class PatientsMedicalRecordsController {
     return this.patientsMedicalRecordsService.findOne(id);
   }
 
+  @Get('patient/:patientId')
+  findByPatient(@Param('patientId') patientId: number) {
+    return this.patientsMedicalRecordsService.findByPatientId(patientId);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: number,

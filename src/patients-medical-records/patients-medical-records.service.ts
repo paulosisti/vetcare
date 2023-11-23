@@ -25,6 +25,20 @@ export class PatientsMedicalRecordsService {
     });
   }
 
+  async findByPatientId(patientId: number) {
+    const patient = await this.patientsService.findOne(patientId);
+    if (!patient) {
+      throw new Error(`Patient with ID ${patientId} not found`);
+    }
+    const records = await this.prismaService.patientMedicalRecord.findMany({
+      where: { patientId },
+    });
+    if (!records) {
+      throw new Error(`Medical Record with patientID ${patientId} not found`);
+    }
+    return records;
+  }
+
   async findAll() {
     const records = await this.prismaService.patientMedicalRecord.findMany();
     return records;

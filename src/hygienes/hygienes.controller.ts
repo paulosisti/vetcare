@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { HygienesService } from './hygienes.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateHygieneDto } from './dto/create-hygiene.dto';
 import { UpdateHygieneDto } from './dto/update-hygiene.dto';
+import { HygienesService } from './hygienes.service';
 
 @Controller('hygienes')
 export class HygienesController {
@@ -18,17 +26,22 @@ export class HygienesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.hygienesService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.hygienesService.findOne(id);
+  }
+
+  @Get('patient/:patientId')
+  findByPetId(@Param('patientId') patientId: number) {
+    return this.hygienesService.findByPetId(patientId);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateHygieneDto: UpdateHygieneDto) {
-    return this.hygienesService.update(+id, updateHygieneDto);
+  update(@Param('id') id: number, @Body() updateHygieneDto: UpdateHygieneDto) {
+    return this.hygienesService.update(id, updateHygieneDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.hygienesService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.hygienesService.remove(id);
   }
 }

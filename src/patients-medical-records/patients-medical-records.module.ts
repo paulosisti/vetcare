@@ -8,5 +8,6 @@ import { PatientsMedicalRecordsService } from './patients-medical-records.servic
   imports: [PatientsModule],
   controllers: [PatientsMedicalRecordsController],
   providers: [PatientsMedicalRecordsService, PrismaService],
+  exports: [PatientsMedicalRecordsService],
 })
 export class PatientsMedicalRecordsModule {}

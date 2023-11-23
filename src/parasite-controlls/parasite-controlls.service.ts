@@ -1,11 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PatientsService } from 'src/patients/patients.service';
 import { PrismaService } from 'src/prisma.service';
 import { CreateParasiteControllDto } from './dto/create-parasite-controll.dto';
 import { UpdateParasiteControllDto } from './dto/update-parasite-controll.dto';
 
 @Injectable()
 export class ParasiteControllsService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly patientsService: PatientsService,
+  ) {}
 
   async create(createParasiteControllDto: CreateParasiteControllDto) {
     return this.prismaService.parasiteControl.create({
@@ -16,6 +20,17 @@ export class ParasiteControllsService {
   async findAll() {
     const records = await this.prismaService.parasiteControl.findMany();
     return records;
+  }
+
+  async findByPetId(patientId: number) {
+    const pet = await this.patientsService.findOne(patientId);
+    const parasiteControl = await this.prismaService.parasiteControl.findMany({
+      where: { patientId: patientId },
+    });
+    if (!pet || !parasiteControl) {
+      throw new NotFoundException('Ops... Record not found. :(');
+    }
+    return parasiteControl;
   }
 
   async findOne(id: number) {

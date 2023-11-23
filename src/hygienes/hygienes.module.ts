@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
-import { OwnersService } from 'src/owners/owners.service';
-import { PatientsService } from 'src/patients/patients.service';
+import { OwnersModule } from 'src/owners/owners.module';
+import { PatientsModule } from 'src/patients/patients.module';
 import { PrismaService } from 'src/prisma.service';
 import { HygienesController } from './hygienes.controller';
 import { HygienesService } from './hygienes.service';
 
 @Module({
   controllers: [HygienesController],
-  providers: [HygienesService, PrismaService, PatientsService, OwnersService],
+  providers: [HygienesService, PrismaService],
+  imports: [OwnersModule, PatientsModule],
+  exports: [HygienesService],
 })
 export class HygienesModule {}

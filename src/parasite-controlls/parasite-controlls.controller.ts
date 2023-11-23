@@ -27,6 +27,11 @@ export class ParasiteControllsController {
     return this.parasiteControllsService.findAll();
   }
 
+  @Get('patient/:patientId')
+  findByPetId(@Param('patientId') patientId: number) {
+    return this.parasiteControllsService.findByPetId(patientId);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.parasiteControllsService.findOne(id);
