@@ -29,7 +29,7 @@ export class MailService {
       </p>
       <p style="font-family: Arial;font-size: 16px; color: #40414c; text-align: justify;">
         Agradecemos por fazer parte da nossa comunidade de amantes de animais.
-        Esperamos que nosso trabalho torne a jornada com o seu pet ainda mais especial!
+        Esperamos que nosso trabalho torne a jornada com o seu pacientes ainda mais especial!
       </p>
       <p style="font-family: Arial;font-size: 16px; color: #40414c; text-align: center;">
         Lambidas animadas e miados felizes.
