@@ -44,7 +44,6 @@ model Patient {
   additionalNotes      String?
   patientMedicalRecord PatientMedicalRecord[]
   vaccines             Vaccine[]
-  patientVaccine       PatientVaccine[]
   hygiene              Hygiene[]
   parasiteControl      ParasiteControl[]
 }
@@ -73,20 +72,12 @@ model PatientMedicalRecord {
 }
 
 model Vaccine {
-  id               Int              @id @default(autoincrement())
+  id               Int      @id @default(autoincrement())
   name             String
   dateAdministered DateTime
   notes            String?
-  patient          Patient[]
-  patientVaccine   PatientVaccine[]
-}
-
-model PatientVaccine {
-  id        Int     @id @default(autoincrement())
-  patientId Int
-  vaccineId Int
-  patient   Patient @relation(fields: [patientId], references: [id])
-  vaccine   Vaccine @relation(fields: [vaccineId], references: [id])
+  patientId        Int
+  patient          Patient  @relation(fields: [patientId], references: [id])
 }
 
 model Hygiene {

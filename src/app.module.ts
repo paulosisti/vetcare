@@ -8,7 +8,6 @@ import { OpenaiModule } from './openai/openai.module';
 import { OwnersModule } from './owners/owners.module';
 import { ParasiteControllsModule } from './parasite-controlls/parasite-controlls.module';
 import { PatientsMedicalRecordsModule } from './patients-medical-records/patients-medical-records.module';
-import { PatientsVaccinesModule } from './patients-vaccines/patients-vaccines.module';
 import { PatientsModule } from './patients/patients.module';
 import { UsersModule } from './users/users.module';
 import { VaccinesModule } from './vaccines/vaccines.module';
@@ -23,7 +22,6 @@ import { VaccinesModule } from './vaccines/vaccines.module';
     PatientsMedicalRecordsModule,
     OpenaiModule,
     VaccinesModule,
-    PatientsVaccinesModule,
     HygienesModule,
     ParasiteControllsModule,
     MailModule,

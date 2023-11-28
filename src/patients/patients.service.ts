@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { createClient } from '@supabase/supabase-js';
+import axios from 'axios';
 import { OwnersService } from 'src/owners/owners.service';
 import { PrismaService } from 'src/prisma.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
@@ -20,9 +21,33 @@ export class PatientsService {
         `Owner with ID ${createPatientDto.ownerId} not found`,
       );
     }
-    return this.prismaService.patient.create({
+    const vetCarePatient = await this.prismaService.patient.create({
       data: { ...createPatientDto },
     });
+
+    await this.createPetInPetCare(vetCarePatient);
+
+    return vetCarePatient;
+  }
+
+  private async createPetInPetCare(vetCarePatient: any) {
+    try {
+      await axios.post('https://petcaredeploy-api.onrender.com/pets', {
+        animalType: vetCarePatient.species,
+        name: vetCarePatient.name,
+        breed: vetCarePatient.breed,
+        gender: vetCarePatient.sex,
+        weight: Math.round(vetCarePatient.weight),
+        birthDate: vetCarePatient.dateOfBirth,
+        userId: vetCarePatient.ownerId,
+      });
+    } catch (error) {
+      console.error('Erro ao criar pet no Pet Care', error.message);
+      if (error.response) {
+        console.error('Detalhes da resposta:', error.response.data);
+      }
+      throw new Error(`Erro ao criar pet no Pet Care: ${error.message}`);
+    }
   }
 
   async findAll() {
@@ -33,6 +58,13 @@ export class PatientsService {
   async findOne(id: number) {
     const patient = await this.prismaService.patient.findUnique({
       where: { id },
+      include: {
+        owner: true,
+        vaccines: true,
+        hygiene: true,
+        parasiteControl: true,
+        patientMedicalRecord: true,
+      },
     });
     if (!patient) {
       throw new Error(`Patient with ID ${id} not found`);
@@ -123,5 +155,32 @@ export class PatientsService {
     }
 
     return null;
+  }
+
+  isBirthdayToday(dateOfBirth: Date): boolean {
+    const currentDate = new Date();
+    const birthDate = new Date(dateOfBirth);
+
+    // Definindo a hora, minuto, segundo e milissegundo como 0 para ambas as datas
+    currentDate.setUTCHours(0, 0, 0, 0);
+    birthDate.setUTCHours(0, 0, 0, 0);
+
+    const isBirthday =
+      currentDate.getMonth() === birthDate.getMonth() &&
+      currentDate.getDate() === birthDate.getDate();
+
+    return isBirthday;
+  }
+
+  async getBirthdaysToday() {
+    const patients = await this.findAll();
+
+    const patientsWithBirthday = patients.filter((patient) =>
+      this.isBirthdayToday(patient.dateOfBirth),
+    );
+
+    console.log('Patients with Birthday Today:', patientsWithBirthday);
+
+    return patientsWithBirthday;
   }
 }
