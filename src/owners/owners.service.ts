@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import axios from 'axios';
 import { PrismaService } from 'src/prisma.service';
 import { CreateOwnerDto } from './dto/create-owner.dto';
 import { UpdateOwnerDto } from './dto/update-owner.dto';
@@ -11,7 +12,26 @@ export class OwnersService {
     const createdOwner = await this.prismaService.owner.create({
       data: createOwnerDto,
     });
+
+    await this.createUserInPetCare(createdOwner);
+
     return createdOwner;
+  }
+
+  private async createUserInPetCare(createdOwner: any) {
+    try {
+      await axios.post('https://petcaredeploy-api.onrender.com/users', {
+        email: createdOwner.email,
+        password: 'senha123',
+        fullname: createdOwner.name,
+      });
+    } catch (error) {
+      console.error('Erro ao criar pet no Pet Care', error.message);
+      if (error.response) {
+        console.error('Detalhes da resposta:', error.response.data);
+      }
+      throw new Error(`Erro ao criar pet no Pet Care: ${error.message}`);
+    }
   }
 
   async findAll() {

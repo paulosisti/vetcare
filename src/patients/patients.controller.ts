@@ -46,6 +46,12 @@ export class PatientsController {
     }
   }
 
+  @Get('birth/Today')
+  async getBirthdaysToday() {
+    const patients = await this.patientsService.getBirthdaysToday();
+    return patients;
+  }
+
   @Patch(':id')
   async update(
     @Param('id') id: number,

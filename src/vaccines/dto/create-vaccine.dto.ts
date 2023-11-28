@@ -12,4 +12,7 @@ export class CreateVaccineDto {
 
   @IsString()
   notes?: string;
+
+  @IsNotEmpty()
+  patientId: number;
 }

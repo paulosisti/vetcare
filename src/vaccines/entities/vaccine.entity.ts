@@ -5,6 +5,5 @@ export class Vaccine implements Prisma.VaccineUncheckedCreateInput {
   name: string;
   dateAdministered: string | Date;
   notes?: string;
-  patient?: Prisma.PatientUncheckedCreateNestedManyWithoutVaccinesInput;
-  patientVaccine?: Prisma.PatientVaccineUncheckedCreateNestedManyWithoutVaccineInput;
+  patientId: number;
 }

@@ -30,6 +30,11 @@ export class VaccinesController {
     return this.vaccinesService.findOne(id);
   }
 
+  @Get('patient/:patientId')
+  findByPetId(@Param('patientId') patientId: number) {
+    return this.vaccinesService.findByPetId(patientId);
+  }
+
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateVaccineDto: UpdateVaccineDto) {
     return this.vaccinesService.update(id, updateVaccineDto);
