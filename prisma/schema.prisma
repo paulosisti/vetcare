@@ -10,6 +10,7 @@ datasource db {
 model Owner {
   id                     Int       @id @default(autoincrement())
   name                   String
+  password               String
   address                String
   phoneNumber            String
   email                  String
@@ -69,6 +70,7 @@ model PatientMedicalRecord {
   notes            String?
   patientId        Int
   patient          Patient  @relation(fields: [patientId], references: [id])
+  createdAt        DateTime @default(now())
 }
 
 model Vaccine {
@@ -78,6 +80,7 @@ model Vaccine {
   notes            String?
   patientId        Int
   patient          Patient  @relation(fields: [patientId], references: [id])
+  createdAt        DateTime @default(now())
 }
 
 model Hygiene {
@@ -86,6 +89,7 @@ model Hygiene {
   notes       String?
   patientId   Int
   patient     Patient  @relation(fields: [patientId], references: [id])
+  createdAt   DateTime @default(now())
 }
 
 model ParasiteControl {
@@ -94,4 +98,5 @@ model ParasiteControl {
   controlType String
   patientId   Int
   patient     Patient  @relation(fields: [patientId], references: [id])
+  createdAt   DateTime @default(now())
 }

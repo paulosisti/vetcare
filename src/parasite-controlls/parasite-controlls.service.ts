@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import axios from 'axios';
+// import axios from 'axios';
 import { PatientsService } from 'src/patients/patients.service';
 import { PrismaService } from 'src/prisma.service';
 import { CreateParasiteControllDto } from './dto/create-parasite-controll.dto';
@@ -26,29 +26,29 @@ export class ParasiteControllsService {
         data: { ...createParasiteControllDto },
       });
 
-    await this.createParasiteControllInPetCare(vetCareParasiteControll);
+    // await this.createParasiteControllInPetCare(vetCareParasiteControll);
 
     return vetCareParasiteControll;
   }
 
-  private async createParasiteControllInPetCare(vetCareParasiteControll: any) {
-    try {
-      await axios.post(
-        'https://petcaredeploy-api.onrender.com/parasite-control',
-        {
-          name: vetCareParasiteControll.controlType,
-          date: vetCareParasiteControll.controlDate,
-          petId: vetCareParasiteControll.patientId,
-        },
-      );
-    } catch (error) {
-      console.error('Erro ao criar pet no Pet Care', error.message);
-      if (error.response) {
-        console.error('Detalhes da resposta:', error.response.data);
-      }
-      throw new Error(`Erro ao criar pet no Pet Care: ${error.message}`);
-    }
-  }
+  // private async createParasiteControllInPetCare(vetCareParasiteControll: any) {
+  //   try {
+  //     await axios.post(
+  //       'https://petcaredeploy-api.onrender.com/parasite-control',
+  //       {
+  //         name: vetCareParasiteControll.controlType,
+  //         date: vetCareParasiteControll.controlDate,
+  //         petId: vetCareParasiteControll.patientId,
+  //       },
+  //     );
+  //   } catch (error) {
+  //     console.error('Erro ao criar pet no Pet Care', error.message);
+  //     if (error.response) {
+  //       console.error('Detalhes da resposta:', error.response.data);
+  //     }
+  //     throw new Error(`Erro ao criar pet no Pet Care: ${error.message}`);
+  //   }
+  // }
 
   async findAll() {
     const records = await this.prismaService.parasiteControl.findMany();

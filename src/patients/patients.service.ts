@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { createClient } from '@supabase/supabase-js';
-import axios from 'axios';
+// import axios from 'axios';
 import { OwnersService } from 'src/owners/owners.service';
 import { PrismaService } from 'src/prisma.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
@@ -25,30 +25,30 @@ export class PatientsService {
       data: { ...createPatientDto },
     });
 
-    await this.createPetInPetCare(vetCarePatient);
+    // await this.createPetInPetCare(vetCarePatient);
 
     return vetCarePatient;
   }
 
-  private async createPetInPetCare(vetCarePatient: any) {
-    try {
-      await axios.post('https://petcaredeploy-api.onrender.com/pets', {
-        animalType: vetCarePatient.species,
-        name: vetCarePatient.name,
-        breed: vetCarePatient.breed,
-        gender: vetCarePatient.sex,
-        weight: Math.round(vetCarePatient.weight),
-        birthDate: vetCarePatient.dateOfBirth,
-        userId: vetCarePatient.ownerId,
-      });
-    } catch (error) {
-      console.error('Erro ao criar pet no Pet Care', error.message);
-      if (error.response) {
-        console.error('Detalhes da resposta:', error.response.data);
-      }
-      throw new Error(`Erro ao criar pet no Pet Care: ${error.message}`);
-    }
-  }
+  // private async createPetInPetCare(vetCarePatient: any) {
+  //   try {
+  //     await axios.post('https://petcaredeploy-api.onrender.com/pets', {
+  //       animalType: vetCarePatient.species,
+  //       name: vetCarePatient.name,
+  //       breed: vetCarePatient.breed,
+  //       gender: vetCarePatient.sex,
+  //       weight: Math.round(vetCarePatient.weight),
+  //       birthDate: vetCarePatient.dateOfBirth,
+  //       userId: vetCarePatient.ownerId,
+  //     });
+  //   } catch (error) {
+  //     console.error('Erro ao criar pet no Pet Care', error.message);
+  //     if (error.response) {
+  //       console.error('Detalhes da resposta:', error.response.data);
+  //     }
+  //     throw new Error(`Erro ao criar pet no Pet Care: ${error.message}`);
+  //   }
+  // }
 
   async findAll() {
     const patients = await this.prismaService.patient.findMany();

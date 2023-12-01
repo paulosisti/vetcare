@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 export class Owner implements Prisma.OwnerUncheckedCreateInput {
   id?: number;
   name: string;
+  password: string;
   address: string;
   phoneNumber: string;
   email: string;

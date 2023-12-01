@@ -25,7 +25,7 @@ export class UsersController {
       const user = await this.usersService.create(createUserDto);
       return user;
     } catch (error) {
-      throw new BadRequestException();
+      throw error.message;
     }
   }
 
