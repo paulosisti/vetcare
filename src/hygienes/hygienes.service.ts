@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Hygiene } from '@prisma/client';
-import axios from 'axios';
+// import axios from 'axios';
 import { PatientsService } from 'src/patients/patients.service';
 import { PrismaService } from 'src/prisma.service';
 import { CreateHygieneDto } from './dto/create-hygiene.dto';
@@ -24,26 +24,26 @@ export class HygienesService {
       data: { ...createHygieneDto },
     });
 
-    await this.createHygieneInPetCare(vetCareHygiene);
+    // await this.createHygieneInPetCare(vetCareHygiene);
 
     return vetCareHygiene;
   }
 
-  private async createHygieneInPetCare(vetCareHygiene: any) {
-    try {
-      await axios.post('https://petcaredeploy-api.onrender.com/hygiene', {
-        name: vetCareHygiene.notes,
-        date: vetCareHygiene.serviceDate,
-        petId: vetCareHygiene.patientId,
-      });
-    } catch (error) {
-      console.error('Erro ao criar pet no Pet Care', error.message);
-      if (error.response) {
-        console.error('Detalhes da resposta:', error.response.data);
-      }
-      throw new Error(`Erro ao criar pet no Pet Care: ${error.message}`);
-    }
-  }
+  // private async createHygieneInPetCare(vetCareHygiene: any) {
+  //   try {
+  //     await axios.post('https://petcaredeploy-api.onrender.com/hygiene', {
+  //       name: vetCareHygiene.notes,
+  //       date: vetCareHygiene.serviceDate,
+  //       petId: vetCareHygiene.patientId,
+  //     });
+  //   } catch (error) {
+  //     console.error('Erro ao criar pet no Pet Care', error.message);
+  //     if (error.response) {
+  //       console.error('Detalhes da resposta:', error.response.data);
+  //     }
+  //     throw new Error(`Erro ao criar pet no Pet Care: ${error.message}`);
+  //   }
+  // }
 
   async findByPetId(patientId: number) {
     const pet = await this.patientsService.findOne(patientId);

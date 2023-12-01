@@ -23,14 +23,9 @@ export class OwnersController {
 
   @Post()
   async create(@Body() createOwnerDto: CreateOwnerDto) {
-    try {
-      const owner = await this.ownersService.create(createOwnerDto);
-      this.mailService.sendMail(owner.email);
-      return owner;
-    } catch (error) {
-      // Lide com erros aqui, por exemplo, validações do Prisma
-      throw new Error('Unable to create owner');
-    }
+    const owner = await this.ownersService.create(createOwnerDto);
+    this.mailService.sendMail(owner.email);
+    return owner;
   }
 
   @Get()

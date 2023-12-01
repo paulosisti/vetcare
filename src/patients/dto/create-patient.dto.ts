@@ -52,7 +52,7 @@ export class CreatePatientDto {
   emergencyContact?: string;
 
   @IsOptional()
-  photoUrl?: string;
+  photoUrl?: string | null;
 
   @IsNotEmpty({ message: 'Current status is required' })
   @IsString({ message: 'Current status must be a string' })

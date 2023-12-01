@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import axios from 'axios';
+// import axios from 'axios';
 import { PatientsService } from 'src/patients/patients.service';
 import { PrismaService } from 'src/prisma.service';
 import { CreateVaccineDto } from './dto/create-vaccine.dto';
@@ -23,26 +23,26 @@ export class VaccinesService {
       data: { ...createVaccineDto },
     });
 
-    await this.createVaccineInPetCare(vetCareVaccine);
+    // await this.createVaccineInPetCare(vetCareVaccine);
 
     return vetCareVaccine;
   }
 
-  private async createVaccineInPetCare(vetCareVaccine: any) {
-    try {
-      await axios.post('https://petcaredeploy-api.onrender.com/vaccines', {
-        name: vetCareVaccine.name,
-        date: vetCareVaccine.dateAdministered,
-        petId: vetCareVaccine.patientId,
-      });
-    } catch (error) {
-      console.error('Erro ao criar pet no Pet Care', error.message);
-      if (error.response) {
-        console.error('Detalhes da resposta:', error.response.data);
-      }
-      throw new Error(`Erro ao criar pet no Pet Care: ${error.message}`);
-    }
-  }
+  // private async createVaccineInPetCare(vetCareVaccine: any) {
+  //   try {
+  //     await axios.post('https://petcaredeploy-api.onrender.com/vaccines', {
+  //       name: vetCareVaccine.name,
+  //       date: vetCareVaccine.dateAdministered,
+  //       petId: vetCareVaccine.patientId,
+  //     });
+  //   } catch (error) {
+  //     console.error('Erro ao criar pet no Pet Care', error.message);
+  //     if (error.response) {
+  //       console.error('Detalhes da resposta:', error.response.data);
+  //     }
+  //     throw new Error(`Erro ao criar pet no Pet Care: ${error.message}`);
+  //   }
+  // }
 
   async findAll() {
     const records = await this.prismaService.vaccine.findMany();

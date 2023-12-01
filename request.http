@@ -1,0 +1,24 @@
+@baseUrl = http://localhost:3000/api
+
+# @name list_all_users
+GET {{baseUrl}}/users
+
+###
+
+# @name create_user
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+    "username":"paul.doe",
+    "email":"paul@example.com",
+    "password":"123456",
+    "firstName":"Joe",
+    "lastName":"Doe",
+    "currentStatus":"Ativo"
+}
+
+###
+
+# @name find_veterinariam
+GET {{baseUrl}}/users/crmv/12345

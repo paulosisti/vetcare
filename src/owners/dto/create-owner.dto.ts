@@ -17,6 +17,10 @@ export class CreateOwnerDto {
   @IsString({ message: 'Address must be a string' })
   address: string;
 
+  @IsNotEmpty({ message: 'Password is required' })
+  @IsString({ message: 'Password must be a string' })
+  password: string;
+
   @IsNotEmpty({ message: 'Phone number is required' })
   @IsString({ message: 'Phone number must be a string' })
   phoneNumber: string;
@@ -44,7 +48,7 @@ export class CreateOwnerDto {
 
   @IsOptional()
   @IsUrl({}, { message: 'Photo URL must be valid' })
-  photoUrl?: string;
+  photoUrl?: string | null;
 
   @IsOptional()
   @IsString({ message: 'Preferred payment method must be a string' })
