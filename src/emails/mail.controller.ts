@@ -6,7 +6,7 @@ export class MailController {
   constructor(private readonly mailService: MailService) {}
 
   @Get()
-  sendMail(email: string) {
-    return this.mailService.sendMail(email);
+  sendMail(email: string, nomeUsuario: string) {
+    return this.mailService.sendMail(email, nomeUsuario);
   }
 }

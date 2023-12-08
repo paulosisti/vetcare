@@ -19,7 +19,7 @@ export class CreateOwnerDto {
 
   @IsNotEmpty({ message: 'Password is required' })
   @IsString({ message: 'Password must be a string' })
-  password: string;
+  password = 'senha123';
 
   @IsNotEmpty({ message: 'Phone number is required' })
   @IsString({ message: 'Phone number must be a string' })

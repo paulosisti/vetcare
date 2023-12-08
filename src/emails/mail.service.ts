@@ -5,20 +5,31 @@ import { Injectable } from '@nestjs/common';
 export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  async sendMail(email: string) {
+  async sendMail(email: string, nomeUsuario: string) {
     await this.mailerService.sendMail({
       to: email,
       from: 'petcaresenac@gmail.com',
-      subject: 'Seja Bem-vindo(a) à VetCare! 🐾',
+      subject: 'Seja Bem-vindo(a) à PetCare! 🐾',
       html: `<div style="background-color: #2adc9e; height: auto; padding: 3px">
         <h2 style="font-family: Arial; color: #40414c; font-size: 24px; font-weight: bold; text-align: center;">
-          Bem-vindo(a) a VetCare o melhor lugar para registrar as informações do seu pet ✍🏻
+          Bem-vindo(a) ao PetCare, o melhor lugar para registrar as informações do seu pet ✍🏻
         </h2>
       </div>
       <p style="font-family: Arial; font-size: 16px; color: #40414c; text-align: justify;">
-        Estamos muito animados em tê-lo(a) conosco!<br><br>
+        Olá ${nomeUsuario}, estamos muito animados em tê-lo(a) conosco!<br><br>
         Com nosso aplicativo web, você pode organizar facilmente informações importantes sobre o seu animal de estimação.
         Desde detalhes médicos e vacinações até lembretes de cuidados, somos seu aliado para manter tudo em dia.
+        <br>
+        <br>
+        Para acessar o sistema basta acessar este link: <a href="https://petcare-online.web.app/login">https://petcare-online.web.app/login</a>
+        <br>
+        <br>
+        Dados de acesso:
+        <br>
+        email: ${email}
+        <br>
+        Senha inicial: <strong>senha123</strong>
+        <br>
       </p>
       <p style="font-family: Arial;font-size: 16px; color: #40414c; text-align: justify;">
         Acompanhe o bem-estar e desenvolvimento do seu pet de forma conveniente.
@@ -31,12 +42,9 @@ export class MailService {
         Agradecemos por fazer parte da nossa comunidade de amantes de animais.
         Esperamos que nosso trabalho torne a jornada com o seu pacientes ainda mais especial!
       </p>
-      <p style="font-family: Arial;font-size: 16px; color: #40414c; text-align: center;">
-        Lambidas animadas e miados felizes.
-      </p>
       <div style="font-family: Arial ;font-size: 16px; color: #40414c; text-align: center; background-color: #2adc9e; height: auto;">
         <p style="text-align: center; padding: 5px">
-          <b>Equipe VetCare 🐶🐱</b>
+          <b>Equipe PetCare 🐶🐱</b>
         </p>
       </div>`,
     });
