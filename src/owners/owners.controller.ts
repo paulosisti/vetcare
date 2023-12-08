@@ -24,7 +24,7 @@ export class OwnersController {
   @Post()
   async create(@Body() createOwnerDto: CreateOwnerDto) {
     const owner = await this.ownersService.create(createOwnerDto);
-    this.mailService.sendMail(owner.email);
+    this.mailService.sendMail(owner.email, owner.name);
     return owner;
   }
 

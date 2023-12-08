@@ -65,11 +65,21 @@ export class OwnersService {
   }
 
   async update(id: number, updateOwnerDto: UpdateOwnerDto) {
-    const updatedOwner = await this.prismaService.owner.update({
+    const owner = await this.findOne(id);
+
+    if (updateOwnerDto.password) {
+      owner.password = await hash(
+        updateOwnerDto.password,
+        bcryptConstant.saltOrRound,
+      );
+    }
+
+    const ownerUpdated = await this.prismaService.owner.update({
       where: { id },
-      data: updateOwnerDto,
+      data: { ...updateOwnerDto, password: owner.password },
     });
-    return updatedOwner;
+
+    return ownerUpdated;
   }
 
   async remove(id: number) {
